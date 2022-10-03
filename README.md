@@ -23,4 +23,11 @@ mvn archetype:generate \
 ```
 
 This command will generate a new morphir project `morphir-lcr` under group `com.aamend.morphir`. This project will be
-compiled / tested / packaged using standard maven operations
+compiled / tested / packaged using standard maven operations (provided morphir-elm library installed)
+
+## Install Morphir-Elm
+
+```shell
+sudo apt-get -y -q install npm
+npm install -g morphir-elm
+```
