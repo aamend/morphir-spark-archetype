@@ -1,0 +1,6 @@
+*.iml
+.idea
+target
+scala
+morphir-hashes.json
+morphir-ir.json
