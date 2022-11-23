@@ -1,0 +1,52 @@
+name: Test
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+
+      # The first step is obviously to check out the repository
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+        # The next step is to install a JDK and maven environment
+        # A settings.xml file with credentials will be created and stored in that folder
+        # See next step for settings.xml creation
+      - name: Cache local Maven repository
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-maven-
+
+        # The next step is to install a JDK and maven environment
+        # A settings.xml file with credentials will be created and stored in that folder
+        # Since we're only testing the stack, no need for a specific configuration with Sonatype credentials
+      - name: Set up Maven
+        uses: actions/setup-java@v2
+        with:
+          distribution: "zulu"
+          java-version: "11"
+
+        # compile and install our archetype
+      - name: Compile and Install archetype
+        run: mvn clean install
+
+        # To properly test this archetype, we will ensure that generated projects can be compiled against morphir-elm
+      - name: Install morphir-elm
+        run: |
+        sudo apt-get -y -q install npm
+        npm install -g morphir-elm
+
+        # To properly test this archetype, let's create a dummy project in the target folder and test maven compilation
+      - name: Test generated project
+        run: |
+        GROUP=`mvn org.apache.maven.plugins:maven-help-plugin:3.1.0:evaluate -Dexpression=project.groupId -q -DforceStdout`
+        ARTIFACT=`mvn org.apache.maven.plugins:maven-help-plugin:3.1.0:evaluate -Dexpression=project.artifactId -q -DforceStdout`
+        VERSION=`mvn org.apache.maven.plugins:maven-help-plugin:3.1.0:evaluate -Dexpression=project.version -q -DforceStdout`
+        cd target
+        mvn archetype:generate -DarchetypeGroupId=$GROUP -DarchetypeArtifactId=$ARTIFACT -Dversion=$VERSION -DgroupId=org.finos.morphir -DartifactId=project -B
+        cd project
+        mvn clean install
