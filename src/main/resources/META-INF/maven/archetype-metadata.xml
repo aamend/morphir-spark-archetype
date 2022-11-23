@@ -15,4 +15,9 @@
             </excludes>
         </fileSet>
     </fileSets>
+    <requiredProperties>
+        <requiredProperty key="morphirVersion">
+            <defaultValue>18.1.0</defaultValue>
+        </requiredProperty>
+    </requiredProperties>
 </archetype-descriptor>

@@ -4,11 +4,51 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.databricks.labs.archetypes</groupId>
-    <artifactId>morphir-spark</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <parent>
+        <groupId>org.finos</groupId>
+        <artifactId>finos</artifactId>
+        <version>4</version>
+    </parent>
 
+    <groupId>org.finos.morphir</groupId>
+    <artifactId>morphir-spark-archetype</artifactId>
+    <version>1.0-SNAPSHOT</version>
     <packaging>maven-archetype</packaging>
+
+    <name>morphir-spark-archetype</name>
+    <description>Packaging maven projects for running Morphir on Spark</description>
+    <inceptionYear>2022</inceptionYear>
+
+    <developers>
+        <developer>
+            <id>aamend</id>
+            <name>Antoine Amend</name>
+            <email>antoine.amend@databricks.com</email>
+            <timezone>MST</timezone>
+            <organization>Databricks</organization>
+            <organizationUrl>https://databricks.com/</organizationUrl>
+            <roles>
+                <role>Technical Director - Financial Services</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <organization>
+        <name>FINOS</name>
+        <url>https://www.finos.org/</url>
+    </organization>
+
+    <licenses>
+        <license>
+            <name>Apache-2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0</url>
+        </license>
+    </licenses>
+
+    <scm>
+        <developerConnection>scm:git:https://github.com/finos/legend-delta</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
 
     <build>
         <extensions>
@@ -27,7 +67,48 @@
                     <target>8</target>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.2.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.13</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
+
+    <repositories>
+        <repository>
+            <id>ossrh</id>
+            <name>OSSRH Public Group</name>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>ossrh-releases</id>
+            <name>OSSRH Public Releases Group</name>
+            <url>https://s01.oss.sonatype.org/content/repositories/releases/</url>
+        </repository>
+    </repositories>
 
 </project>

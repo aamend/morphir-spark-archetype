@@ -90,20 +90,6 @@
                 <version>3.1.0</version>
                 <executions>
                     <execution>
-                        <id>morphir-tests</id>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <executable>morphir-elm</executable>
-                            <workingDirectory>${project.basedir}/src/main/morphir</workingDirectory>
-                            <arguments>
-                                <argument>test</argument>
-                            </arguments>
-                        </configuration>
-                    </execution>
-                    <execution>
                         <id>morphir-ir</id>
                         <phase>generate-sources</phase>
                         <goals>
@@ -175,5 +161,49 @@
 
         </plugins>
     </build>
+
+    <profiles>
+
+        <!-- ************************ -->
+        <!-- UNIT TEST LOGIC -->
+        <!-- ************************ -->
+
+        <!-- Morphir tests will fail if test file does not exist yet -->
+        <!-- We only activate this phase if test exists -->
+
+        <profile>
+            <id>activate-tests</id>
+            <activation>
+                <file>
+                    <exists>src/main/morphir/morphir-tests.json</exists>
+                </file>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>3.1.0</version>
+                        <executions>
+                            <execution>
+                                <id>morphir-tests</id>
+                                <phase>test</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <executable>morphir-elm</executable>
+                                    <workingDirectory>${project.basedir}/src/main/morphir</workingDirectory>
+                                    <arguments>
+                                        <argument>test</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 </project>
