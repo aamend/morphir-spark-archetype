@@ -19,7 +19,7 @@ jobs:
       - name: Set up node
         run: sudo apt-get -y -q install npm
 
-      - name: Install morphir
+      - name: Install morphir-elm
         run: npm install -g morphir-elm
 
       - name: Compile morphir implementation
