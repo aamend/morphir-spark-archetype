@@ -6,7 +6,7 @@ package ELM code to follow JVM based project best practices, but wraps morphir l
 enforce CI/CD and actionable models.*
 
 [![FINOS - Incubating](https://cdn.jsdelivr.net/gh/finos/contrib-toolbox@master/images/badge-incubating.svg)](https://finosfoundation.atlassian.net/wiki/display/FINOS/Incubating)
-[![Build CI](https://github.com/finos-labs/morphir-spark-archetype/workflows/Build%20CI/badge.svg)]()
+[![Build CI](https://github.com/aamend/morphir-spark-archetype/workflows/Test/badge.svg)]()
 [![Maven Central](https://img.shields.io/maven-central/v/org.finos.morphir/morphir-spark-archetype.svg)](http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22morphir-spark-archetype)
 
 ## Compile
@@ -48,8 +48,8 @@ such will comply with the following commands
 - `mvn package`: compile *.elm code to scala (spark) and scala to byte code (packaged as a jar)
 - `mvn test`: runs unit tests expressed as `morphir-tests.json` (skipped if no file is found)
 - `mvn install`: deploy generated jar `com.aamend.morphir_reporting_1.0-SNAPSHOT.jar` to local `~/.m2`
-- `mvn deploy`
-- `mvn release`
+- `mvn deploy`: deploy generated jar to target `<repository>`
+- `mvn release`: leverage maven release plugins (if specified) to release a new spark ready package
 - etc.
 
 Note that these maven commands will be executed conditional to npm and native morphir-elm dependencies to be available
